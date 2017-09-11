@@ -21,6 +21,8 @@ public class Application implements CommandLineRunner {
 
         repository.save(new MonthExpense("08/17", "food", 123.2));
         repository.save(new MonthExpense("08/17", "clothers", 234.4));
+        repository.save(new MonthExpense("08/17", "total", 500.00));
+
 
         for (MonthExpense expense : repository.findAll()) {
             System.out.println(expense.getDate() + " " + expense.getCategory() + " " + expense.getTotalExpense());
