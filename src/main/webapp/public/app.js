@@ -1,15 +1,56 @@
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import '../../resources/static/app.css';
+
+
 function compareNumbers(a, b) {
   return a - b;
 }
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
 var ExpensesHisto = React.createClass({
+  getInitialState: function () {
+        return {
+            data: [],
+            series: ['july'],
+            labels: ['june', 'july', 'august'],
+            colors: ['#43A19E', '#7B43A1', '#F2317A']
+        }
+    },
+    componentDidMount: function () {
+        this.populateArray();
+    },
+    populateArray: function () {
+        var data = [],
+            series = 1,//getRandomInt(2, 10),
+            serieLength = 3;//getRandomInt(2, 10);
+
+        for (var i = series; i--; ) {
+            var tmp = [];
+
+            for (var j = serieLength; j--; ) {
+                tmp.push(getRandomInt(0, 20));
+            }
+
+            data.push(tmp);
+        }
+
+        this.setState({ data: data });
+    },
   render: function() {
-    return (        <section>
+    return (
+            <section>
                     <Charts
-                      data={ [1, 2] }
-                      labels={ ['total', 'expenses'] }
-                      height={ 250 }
-                    /></section>)
+                    data={ this.state.data }
+                    labels={ this.state.series }
+                                        colors={ this.state.colors }
+                                        height={ 250 }
+
+                    />
+             </section>)
   }
 });
 
@@ -18,9 +59,9 @@ var Charts = React.createClass({
   render: function () {
     var self = this,
       data = this.props.data,
-      layered = this.props.grouping === 'layered' ? true : false,
-      stacked = this.props.grouping === 'stacked' ? true : false,
-      opaque = this.props.opaque,
+      layered = false,
+      stacked = false,
+      opaque = false,
       max = 0;
 
     for (var i = data.length; i--; ) {
@@ -33,15 +74,16 @@ var Charts = React.createClass({
 
 
     return (
-      <div className={ 'Charts' + (this.props.horizontal ? ' horizontal' : '' ) }>
-        { data.map(function (serie, serieIndex) {
-          var sortedSerie = serie.slice(0);
-          var  sum;
+       	<div className={ 'Charts' + (this.props.horizontal ? ' horizontal' : '' ) }>
+       				{ data.map(function (serie, serieIndex) {
+       				 	var sortedSerie = serie.slice(0),
+       				 		sum;
 
-          sum = serie.reduce(function (carry, current) {
-            return carry + current;
-          }, 0);
-          sortedSerie.sort(compareNumbers);
+       				 	sum = serie.reduce(function (carry, current) {
+       				 		return carry + current;
+       					}, 0);
+       				 	sortedSerie.sort(compareNumbers);
+
 
           return (
             <div className={ 'Charts--serie ' + (self.props.grouping) }
@@ -95,5 +137,5 @@ var EXPENSES = [
  ];
 
 ReactDOM.render(
-  <ExpensesHisto />, document.getElementById('root')
+  <ExpensesHisto/>, document.getElementById('charts')
 );
