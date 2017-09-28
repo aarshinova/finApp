@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-export default class SelectMonth extends Component {
+export default class CurrentMonth extends Component {
   constructor(props){
     super(props);
   }
-   // TODO add month selector
   render(){
     return (
       <div>
-        <h3>Choose the months you want to display: {this.props.name}</h3>
+        <h3>You are looking at expenses of : {this.props.month}</h3>
       </div>
     );
   }

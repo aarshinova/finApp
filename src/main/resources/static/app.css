@@ -8,8 +8,11 @@
       -ms-flex-align: end;
           align-items: flex-end;
   padding: 50px;
+  margin-left:50px;
+  margin-right:50px;
 }
 .Charts.horizontal {
+
   display: block;
 }
 .Charts.horizontal .Charts--serie {

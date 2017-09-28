@@ -1,6 +1,8 @@
 package finApp;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 public class MonthExpense {
     @Id
