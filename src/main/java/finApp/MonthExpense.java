@@ -1,28 +1,37 @@
 package finApp;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 public class MonthExpense {
     @Id
     public String id;
-    public String date;
+    public int month;
+    public int year;
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     public String category;
     public Double totalExpense;
 
-    public String getDate() {
-        return date;
-    }
-
-    public MonthExpense(String date, String category, Double totalExpense) {
-        this.date = date;
+    public MonthExpense(int month,int year,String category,Double totalExpense) {
+        this.month = month;
+        this.year = year;
         this.category = category;
         this.totalExpense = totalExpense;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getCategory() {
@@ -39,5 +48,9 @@ public class MonthExpense {
 
     public void setTotalExpense(Double totalExpense) {
         this.totalExpense = totalExpense;
+    }
+
+    public String getDate() {
+        return ""+month+"/" + year;
     }
 }
