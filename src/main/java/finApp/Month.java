@@ -1,9 +1,7 @@
 package finApp;
 
-import org.springframework.data.annotation.Id;
-
 public class Month{
-    @Id
+
     private int id;
     private String month;
 

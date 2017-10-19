@@ -6,6 +6,7 @@ import TotalExpensesGraph from './TotalExpensesGraph';
 import BackLink from './BackLink';
 import CurrentMonth from './CurrentMonth';
 import {loadMonths} from "./store/client";
+import {loadYears} from "./store/client";
 
 class App extends Component {
   constructor(props) {
@@ -17,9 +18,11 @@ class App extends Component {
       colors: ['#43A19E', '#7B43A1', '#F2317A', '#FF9824', '#58CF6C'],
       detailedView: false,
       months: [],
+      years : [],
       currentMonth:""
     }
     this.handleOpenMonthDetail = this.handleOpenMonthDetail.bind(this);
+    this.handleDatesFilterSubmit = this.handleDatesFilterSubmit.bind(this);
   }
   handleOpenMonthDetail(e) {
     if (this.state.detailedView === false)
@@ -34,18 +37,28 @@ class App extends Component {
   }
 
   componentDidMount() {
+      // load all the information
+
       loadMonths().then(results => {
-           console.log(results.data._embedded.months);
-          this.setState({
-              months: results.data._embedded.months
-          })
+          var months = results.data._embedded.months;
+          loadYears().then(results => {
+              this.setState({
+                  months: months,
+                  years: results.data._embedded.years
+              })
+
+          });
+
       });
-      console.log(this.state);
+  }
+
+  handleDatesFilterSubmit(e){
+    e.preventDefault();
   }
 
   render() {
     let allMonthsOverview = <div>
-      <SelectMonth months={this.state.months} />
+      <SelectMonth months={this.state.months} years={this.state.years} handleDatesFilterSubmit={this.handleDatesFilterSubmit}/>
       <TotalExpensesGraph series={this.state.series} labels={this.state.labels} colors={this.state.colors}
         handleOpenDetail={this.handleOpenMonthDetail} />
     </div>
@@ -60,7 +73,7 @@ class App extends Component {
     let visibleElement = this.state.detailedView ? montDetails : allMonthsOverview;
     return (
       <div>
-        <h1>Wallet watch</h1>
+        <h1>FinApp</h1>
         {visibleElement}
       </div>
     );
